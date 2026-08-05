@@ -24,7 +24,7 @@ router.get('/servicios', (req, res) => {
         nombreClinica: CLINICA_NAME,
         tituloPrincipal: "Amplia gama de servicios centrados en tus mascotas",
         descripcion: "Ofrecemos una gran variedad de servicios médicos especializados para asegurar la salud de tus regalones.",
-        listaDeServicios: [
+        listaServicios: [
             "Consulta General y Preventiva",
             "Vacunación e Identificación (Microchip)",
             "Cirugía de Alta Complejidad",
