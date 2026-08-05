@@ -1,0 +1,13 @@
+# Acá colocas los recursos y carpetas que GIT va a ignorar
+node_modules/
+pnpm-debug.log*
+npm-debug.log*
+
+.idea/
+.iws
+.iml
+.ipr
+
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/

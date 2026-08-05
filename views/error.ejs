@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - <%= message %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body class="flex flex-col min-h-screen bg-slate-50">
+
+<!-- Navegación Minimalista (Consistencia de marca) -->
+<nav class="flex justify-between items-center p-6 bg-white shadow-sm">
+    <div class="font-bold text-2xl text-teal-600">VetCare Pro</div>
+    <div class="space-x-6 font-semibold text-slate-600">
+        <a href="/" class="hover:text-teal-600">Inicio</a>
+        <a href="/servicios" class="hover:text-teal-600">Servicios</a>
+        <a href="/contacto" class="hover:text-teal-600">Contacto</a>
+    </div>
+</nav>
+
+<main class="flex-grow flex items-center justify-center px-6">
+    <section class="max-w-2xl w-full text-center">
+        <div class="mb-8">
+            <span class="text-9xl font-extrabold text-teal-100 uppercase tracking-tighter"><%= error.status %></span>
+            <h1 class="text-3xl font-bold text-slate-800 -mt-12 relative"><%= message %></h1>
+        </div>
+
+        <p class="text-slate-600 mb-8">
+            Lo sentimos, ha ocurrido un inconveniente inesperado. Por favor, intenta regresar al inicio o contacta con
+            soporte si el problema persiste.
+        </p>
+
+        <a href="/"
+           class="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-teal-700 transition">
+            Volver al Inicio
+        </a>
+
+        <!-- Solo visible en entorno de desarrollo para el programador -->
+        <% if (error.stack) { %>
+            <div class="mt-12 text-left bg-slate-900 text-teal-400 p-6 rounded-xl overflow-x-auto text-xs font-mono shadow-2xl">
+                <p class="mb-4 text-slate-500 uppercase font-bold">// Stack Trace para Desarrollo:</p>
+                <pre><%= error.stack %></pre>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<footer class="p-8 text-center text-slate-400 text-sm">
+    <p>&copy; VetCare Pro - Soporte Técnico</p>
+</footer>
+
+</body>
+</html>

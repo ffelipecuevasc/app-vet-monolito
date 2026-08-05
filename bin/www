@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+// Importación de dependencias externas (módulos o librerías) según el éstandar ES6
+import app from "../app.js";
+import debugLib from "debug";
+import http from "http";
+
+const debug = debugLib("vet-express:server");
+
+// Configuración del puerto en el que estará activo nuestro servidor HTTP (Express.js)
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+// Creación del servidor HTTP (Express.js)
+const server = http.createServer(app);
+
+// Activación del servidor HTTP para que escuche (listen) en el puerto configurado (3000)
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+// Normalización del puerto del servidor HTTP (Express.js)
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+  if (isNaN(port)) return val;
+  if (port >= 0) return port;
+  return false;
+}
+
+// Manejador de errores del servidor HTTP (Express.js)
+function onError(error) {
+  if (error.syscall !== 'listen') throw error;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+// Manejador de evento "listening" del servidor HTTP (Express.js)
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

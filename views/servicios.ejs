@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body class="flex flex-col min-h-screen">
+
+<nav class="flex justify-between items-center p-6 bg-white shadow-sm">
+    <div class="font-bold text-2xl text-teal-600"><%= nombreClinica %></div>
+    <div class="space-x-6 font-semibold text-slate-600">
+        <a href="/" class="hover:text-teal-600">Inicio</a>
+        <a href="/servicios" class="text-teal-600">Servicios</a>
+        <a href="/contacto" class="hover:text-teal-600">Contacto</a>
+    </div>
+</nav>
+
+<main class="flex-grow">
+    <!-- Sección 1: Introducción -->
+    <section class="section-container text-center pb-0">
+        <h1 class="text-4xl font-bold mb-4"><%= heroMessage %></h1>
+        <p class="text-slate-600 text-lg"><%= descripcion %></p>
+    </section>
+
+    <!-- Sección 2: Tarjetas de Servicios -->
+    <section class="section-container grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% listaServicios.forEach(servicio => { %>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:border-teal-200 transition">
+                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 text-teal-600 font-bold">
+                    ✓
+                </div>
+                <h3 class="font-bold text-xl mb-2"><%= servicio %></h3>
+                <p class="text-slate-500 text-sm">Atención profesional garantizada por nuestros especialistas.</p>
+            </div>
+        <% }) %>
+    </section>
+</main>
+
+<footer class="p-8 border-t border-slate-200 text-center text-slate-500 text-sm">
+    <p>&copy; <%= new Date().getFullYear() %> <%= nombreClinica %>. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
