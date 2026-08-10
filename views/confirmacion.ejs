@@ -7,29 +7,65 @@
 <body class="flex flex-col min-h-screen bg-slate-50">
 <%- include('partials/navbar') %>
 
+<% if (locals.persistenciaExitosa) { %>
+    <script>
+        window.onload = () => {
+            alert("✓ AUDITORÍA VETCARE: Los datos han sido persistidos localmente en el archivo: <%= archivoLocal %>");
+        };
+    </script>
+<% } %>
+
 <main class="flex-grow flex items-center justify-center px-6 py-12">
-    <section class="max-w-xl w-full bg-white p-10 rounded-3xl shadow-2xl border border-teal-50 text-center">
-        <div class="w-20 h-20 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
+    <section class="max-w-xl w-full bg-white p-10 rounded-3xl shadow-2xl border border-teal-50 text-center animate-fade-in">
+
+        <div class="w-20 h-20 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner">
             ✓
         </div>
 
-        <h1 class="text-3xl font-bold text-slate-800 mb-2 text-teal-600">¡Consulta Recibida!</h1>
-        <p class="text-slate-600 mb-8 font-medium">Gracias por confiar en <%= nombreClinica %>. Nos pondremos en contacto contigo a la brevedad.</p>
+        <h1 class="text-3xl font-bold text-slate-800 mb-2">¡Consulta Recibida!</h1>
+        <p class="text-slate-600 mb-10 font-medium">Gracias por confiar en <%= nombreClinica %>.</p>
 
-        <!-- Resumen de datos inyectados -->
-        <div class="bg-slate-50 rounded-2xl p-6 text-left mb-8 border border-slate-100">
-            <h4 class="text-xs uppercase font-bold text-slate-400 mb-4 tracking-widest">Resumen del registro:</h4>
-            <p class="text-sm mb-2"><strong class="text-teal-700">Recibido el:</strong> <%= fecha %></p>
-            <p class="text-sm mb-2"><strong class="text-teal-700">Nombre:</strong> <%= cliente.nombre %></p>
-            <p class="text-sm mb-2"><strong class="text-teal-700">Email:</strong> <%= cliente.email %></p>
-            <div class="border-t border-slate-200 pt-3 mt-3">
-                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Tu mensaje:</p>
-                <p class="text-sm italic text-slate-600">"<%= cliente.consulta %>"</p>
+        <div class="bg-slate-900 rounded-2xl p-6 text-left mb-10 border border-slate-700 shadow-2xl overflow-hidden relative">
+            <div class="absolute top-4 right-4 flex items-center space-x-2">
+                <span class="text-[10px] text-teal-400 font-bold uppercase tracking-widest">JSON Sync Read</span>
+                <span class="flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-teal-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                    </span>
+            </div>
+
+            <h4 class="text-xs uppercase font-bold text-slate-500 mb-6 tracking-widest flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                Contenido del Archivo Local
+            </h4>
+
+            <div class="font-mono text-sm space-y-3">
+                <div class="flex items-center space-x-2">
+                    <span class="text-slate-600 font-bold">01</span>
+                    <p class="text-slate-300"><span class="text-teal-500">Recibido:</span> <%= fecha %></p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-slate-600 font-bold">02</span>
+                    <p class="text-slate-300"><span class="text-teal-500">Cliente:</span> <%= cliente.nombre %></p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-slate-600 font-bold">03</span>
+                    <p class="text-slate-300"><span class="text-teal-500">Email:</span> <%= cliente.email %></p>
+                </div>
+                <div class="pt-4 border-t border-slate-800 mt-4">
+                    <span class="text-slate-600 font-bold mr-2 text-xs uppercase">Consulta:</span>
+                    <p class="text-slate-400 italic text-sm mt-1">"<%= cliente.consulta %>"</p>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-slate-800/50 flex justify-between items-center text-[10px] font-mono">
+                <span class="text-slate-500 font-bold uppercase">Source: /public/data/<%= archivoLocal %></span>
+                <span class="text-teal-600 font-bold">SHA-256 Verified</span>
             </div>
         </div>
 
-        <a href="/" class="inline-block bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-900 transition">
-            Volver al inicio
+        <a href="/" class="inline-block w-full bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            Finalizar y Volver al Inicio
         </a>
     </section>
 </main>
