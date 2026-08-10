@@ -1,0 +1,39 @@
+<!-- views/confirmacion.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="flex flex-col min-h-screen bg-slate-50">
+<%- include('partials/navbar') %>
+
+<main class="flex-grow flex items-center justify-center px-6 py-12">
+    <section class="max-w-xl w-full bg-white p-10 rounded-3xl shadow-2xl border border-teal-50 text-center">
+        <div class="w-20 h-20 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
+            ✓
+        </div>
+
+        <h1 class="text-3xl font-bold text-slate-800 mb-2 text-teal-600">¡Consulta Recibida!</h1>
+        <p class="text-slate-600 mb-8 font-medium">Gracias por confiar en <%= nombreClinica %>. Nos pondremos en contacto contigo a la brevedad.</p>
+
+        <!-- Resumen de datos inyectados -->
+        <div class="bg-slate-50 rounded-2xl p-6 text-left mb-8 border border-slate-100">
+            <h4 class="text-xs uppercase font-bold text-slate-400 mb-4 tracking-widest">Resumen del registro:</h4>
+            <p class="text-sm mb-2"><strong class="text-teal-700">Recibido el:</strong> <%= fecha %></p>
+            <p class="text-sm mb-2"><strong class="text-teal-700">Nombre:</strong> <%= cliente.nombre %></p>
+            <p class="text-sm mb-2"><strong class="text-teal-700">Email:</strong> <%= cliente.email %></p>
+            <div class="border-t border-slate-200 pt-3 mt-3">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Tu mensaje:</p>
+                <p class="text-sm italic text-slate-600">"<%= cliente.consulta %>"</p>
+            </div>
+        </div>
+
+        <a href="/" class="inline-block bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-900 transition">
+            Volver al inicio
+        </a>
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>

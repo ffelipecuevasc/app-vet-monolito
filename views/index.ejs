@@ -1,47 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+  <%- include('partials/head') %>
 </head>
 <body class="flex flex-col min-h-screen">
-
-<!-- Navegación Minimalista -->
-<nav class="flex justify-between items-center p-6 bg-white shadow-sm">
-    <div class="font-bold text-2xl text-teal-600"><%= nombreClinica %></div>
-    <div class="space-x-6 font-semibold text-slate-600">
-        <a href="/" class="text-teal-600">Inicio</a>
-        <a href="/servicios" class="hover:text-teal-600">Servicios</a>
-        <a href="/contacto" class="hover:text-teal-600">Contacto</a>
-    </div>
-</nav>
+<%- include('partials/navbar') %>
 
 <main class="flex-grow">
-    <!-- Sección 1: Hero -->
-    <section class="bg-teal-600 text-white py-20 px-6 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-5xl font-bold mb-6"><%= tituloPrincipal %></h1>
-            <p class="text-xl text-teal-50-80 opacity-90"><%= descripcion %></p>
-        </div>
-    </section>
+  <section class="bg-teal-600 text-white py-20 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-5xl font-bold mb-6"><%= tituloPrincipal %></h1>
+      <p class="text-xl text-teal-50-80 opacity-90"><%= descripcion %></p>
+    </div>
+  </section>
 
-    <!-- Sección 2: Info Bienvenida -->
-    <section class="section-container text-center">
-        <h2 class="text-3xl font-bold mb-4">Bienvenido a nuestra comunidad</h2>
-        <p class="text-slate-600 text-lg max-w-2xl mx-auto">
-            En <%= nombreClinica %>, entendemos que tu mascota es parte de tu familia. Por eso, combinamos tecnología
-            médica de punta con un trato humano y cálido.
-        </p>
-    </section>
+  <section class="section-container text-center">
+    <h2 class="text-3xl font-bold mb-4">Bienvenido a nuestra comunidad</h2>
+    <p class="text-slate-600 text-lg max-w-2xl mx-auto">
+      En <%= nombreClinica %>, entendemos que tu mascota es parte de tu familia.
+    </p>
+  </section>
 </main>
 
-<footer class="p-8 border-t border-slate-200 text-center text-slate-500 text-sm">
-    <p>&copy; <%= new Date().getFullYear() %> <%= nombreClinica %>. Todos los derechos reservados.</p>
-</footer>
-
+<%- include('partials/footer') %>
 </body>
 </html>

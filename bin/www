@@ -18,6 +18,7 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+console.log(`SERVIDOR HTTP - Aplicación desplegada en: http://localhost:${port}`);
 
 // Normalización del puerto del servidor HTTP (Express.js)
 function normalizePort(val) {

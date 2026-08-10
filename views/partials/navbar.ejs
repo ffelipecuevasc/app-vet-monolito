@@ -1,0 +1,17 @@
+<!-- views/partials/navbar.ejs -->
+<nav class="flex justify-between items-center p-6 bg-white shadow-sm">
+    <!-- Contenedor del Logo y Nombre -->
+    <div class="flex items-center space-x-3">
+        <img src="/images/icon.svg" alt="Logo <%= nombreClinica %>" class="w-8 h-8">
+        <div class="font-bold text-2xl text-teal-600 tracking-tight">
+            <%= nombreClinica %>
+        </div>
+    </div>
+
+    <!-- Enlaces de Navegación -->
+    <div class="space-x-6 font-semibold text-slate-600">
+        <a href="/" class="hover:text-teal-600">Inicio</a>
+        <a href="/servicios" class="hover:text-teal-600">Servicios</a>
+        <a href="/contacto" class="hover:text-teal-600">Contacto</a>
+    </div>
+</nav>
