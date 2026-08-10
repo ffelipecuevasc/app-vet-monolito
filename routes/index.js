@@ -3,6 +3,7 @@ import express from "express";
 import validator from 'validator'; // Librería para validaciones
 import dayjs from 'dayjs'; // Librería para fechas
 import 'dayjs/locale/es.js'; // Importamos el idioma español
+import { crearRegistroJSON, leerRegistroJSON } from '../helpers/crud_json.js';
 
 dayjs.locale('es'); // Configuramos dayjs globalmente en español
 
@@ -58,36 +59,48 @@ router.get('/contacto', (req, res, next) => {
 // POST: PROCESAR CONSULTA (/enviar-consulta)
 // Captura los datos del formulario y redirige a la confirmación.
 router.post('/enviar-consulta', (req, res) => {
-    const { nombre, email, consulta } = req.body;
+    try{
+        const { nombre, email, consulta } = req.body;
 
-    // 1. VALIDACIÓN: Verificamos si el email es real usando 'validator'
-    const esEmailValido = validator.isEmail(email);
+        if (!validator.isEmail(email)){
+            return res.status(400).render('error', {
+                error: {
+                    status: 400,
+                    stack: "Reintenta con un email real y válido."
+                },
+                nombreClinica: 'VetCare Pro'
+            });
+        }
 
-    if (!esEmailValido) {
-        // Si el email no es válido, lanzamos un error (o podrías redirigir con un mensaje)
-        return res.status(400).render('error', {
-            message: 'El correo electrónico ingresado no es válido.',
-            error: { status: 400, stack: 'Por favor, regresa e intenta con un email real.' },
-            nombreClinica: "VetCare Pro"
+        const datosParaGuardar = {
+            nombre: validator.escape(nombre),
+            email: email,
+            consulta: validator.escape(consulta)
+        };
+
+        const nombreArchivo = crearRegistroJSON(datosParaGuardar);
+        const datosRecuperados = leerRegistroJSON(nombreArchivo);
+
+        const fechaRecepcion = dayjs().format('dddd, D [de] MMMM [de] YYYY');
+        res.render('confirmacion', {
+            titulo: 'Confirmacion de Persistencia JSON',
+            nombreClinica: 'VetCare Pro',
+            cliente: datosRecuperados,
+            fecha: fechaRecepcion,
+            archivoLocal: nombreArchivo,
+            persistenciaExitosa: true
+        });
+
+    }catch(error){
+        res.status(500).render('error', {
+            message: "Fallo crítico en el sistema de archivos JSON.",
+            error: {
+                status: 500,
+                stack: error.message
+            },
+            nombreClinica: 'VetCare Pro'
         });
     }
-
-    // 2. FECHAS: Generamos una fecha de recepción formateada con 'dayjs'
-    // Formato: "lunes, 20 de mayo de 2024"
-    const fechaRecepcion = dayjs().format('dddd, D [de] MMMM [de] YYYY');
-
-    const data = {
-        titulo: "Consulta Recibida | VetCare Pro",
-        nombreClinica: "VetCare Pro",
-        cliente: {
-            nombre: validator.escape(nombre), // Limpiamos el texto para evitar XSS
-            email,
-            consulta: validator.escape(consulta)
-        },
-        fecha: fechaRecepcion
-    };
-
-    res.render('confirmacion', data);
 });
 
 export default router;
