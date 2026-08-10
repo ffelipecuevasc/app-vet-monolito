@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 // Crear constantes de UBICACIONES - Rutas para acceder a los datos y a los logs
 const DATA_PATH = path.join(process.cwd(), 'public', 'data');
-const LOG_PATH = path.join(process.cwd(), 'public', 'logs');
+const LOG_PATH = path.join(process.cwd(), 'logs', 'activity.log');
 
 // Función interna que permite registrar en un LOG lo que va pasando en el servidor
 const registrarActividad = (mensaje) => {
@@ -16,7 +16,7 @@ const registrarActividad = (mensaje) => {
 // CREATE del CRUD - Crear un registro en el archivo JSON
 export const crearRegistroJSON = (data) => {
     try{
-        const fileName = `${dayjs().format('YYYY-MM-DD HH:mm:ss')}.json`;
+        const fileName = `${dayjs().format('YYYY-MM-DD-HH_mm_ss')}.json`;
         const filePath = path.join(DATA_PATH, fileName);
 
         fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
