@@ -11,3 +11,6 @@ npm-debug.log*
 Thumbs.db
 Desktop.ini
 $RECYCLE.BIN/
+
+# Muy importante agregar el archivo .env acá ANTES DE CREARLO
+.env

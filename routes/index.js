@@ -1,17 +1,18 @@
-// Importamos express y el enrutador
 import express from "express";
-import validator from 'validator'; // Librería para validaciones
-import dayjs from 'dayjs'; // Librería para fechas
-import 'dayjs/locale/es.js'; // Importamos el idioma español
-import { crearRegistroJSON, leerRegistroJSON } from '../helpers/crud_json.js';
+import validator from 'validator';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es.js';
+import nodemailer from 'nodemailer';
+import { registrarActividad } from "../helpers/logger.js";
 
-dayjs.locale('es'); // Configuramos dayjs globalmente en español
+dayjs.locale('es');
 
 const router = express.Router();
 
 // Configuración del enrutador (router) con el metodo HTPP Get (aunque existen Post, Put, Delete)
 // RUTA DE INICIO (/)
 router.get('/', (req, res, next) => {
+    registrarActividad("GET / - El usuario visitó la página de Inicio.");
     const data = {
         titulo: "Inicio | VetCare Pro",
         nombreClinica: "VetCare Pro",
@@ -23,6 +24,7 @@ router.get('/', (req, res, next) => {
 
 // RUTA NUEVA: SERVICIOS (/servicios)
 router.get('/servicios', (req, res, next) => {
+    registrarActividad("GET /servicios - El usuario visitó la página de Servicios.");
     const data = {
         titulo: "Servicios | VetCare Pro",
         nombreClinica: "VetCare Pro",
@@ -41,6 +43,7 @@ router.get('/servicios', (req, res, next) => {
 
 // RUTA NUEVA: CONTACTO (/contacto)
 router.get('/contacto', (req, res, next) => {
+    registrarActividad("GET /contacto - El usuario visitó la página de Contacto.");
     const data = {
         titulo: "Contacto | VetCare Pro",
         nombreClinica: "VetCare Pro",
@@ -55,49 +58,70 @@ router.get('/contacto', (req, res, next) => {
     res.render('contacto', data);
 });
 
-// RUTA NUEVA: Configurar el POST
-// POST: PROCESAR CONSULTA (/enviar-consulta)
-// Captura los datos del formulario y redirige a la confirmación.
-router.post('/enviar-consulta', (req, res) => {
-    try{
+/**
+ * POST: PROCESAR CONSULTA Y ENVIAR CORREO
+ * Metodo Asincrónico para manejar la latencia de la red.
+ */
+router.post('/enviar-consulta', async (req, res) => {
+    try {
         const { nombre, email, consulta } = req.body;
 
-        if (!validator.isEmail(email)){
+        // 1. Validación con la dependencia 'validator'
+        if (!validator.isEmail(email)) {
+            registrarActividad(`POST /enviar-consulta - RECHAZADO: Intento de formulario con email inválido (${email}).`);
             return res.status(400).render('error', {
-                error: {
-                    status: 400,
-                    stack: "Reintenta con un email real y válido."
-                },
+                message: 'El correo electrónico ingresado no tiene un formato válido',
+                error: { status: 400, stack: 'Reintenta con un email real.' },
                 nombreClinica: 'VetCare Pro'
             });
         }
 
-        const datosParaGuardar = {
-            nombre: validator.escape(nombre),
-            email: email,
-            consulta: validator.escape(consulta)
-        };
+        registrarActividad(`POST /enviar-consulta - PROCESANDO: Iniciando envío de correo para ${email}...`);
 
-        const nombreArchivo = crearRegistroJSON(datosParaGuardar);
-        const datosRecuperados = leerRegistroJSON(nombreArchivo);
-
-        const fechaRecepcion = dayjs().format('dddd, D [de] MMMM [de] YYYY');
-        res.render('confirmacion', {
-            titulo: 'Confirmacion de Persistencia JSON',
-            nombreClinica: 'VetCare Pro',
-            cliente: datosRecuperados,
-            fecha: fechaRecepcion,
-            archivoLocal: nombreArchivo,
-            persistenciaExitosa: true
+        // 2. Configuración del transporte 'nodemailer'
+        // - En producción, estos datos deben ir en variables de entorno (.env)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail', // Puedes usar 'outlook', 'yahoo', etc.
+            auth: {
+                user: 'tu_correo_admin@gmail.com', // El correo que enviará el mensaje
+                pass: '' // Contraseña de aplicación configurada en tu cuenta Google > Contraseñas de Aplicación
+            }
         });
 
-    }catch(error){
+        // 3. Estructura del correo electrónico
+        const mailOptions = {
+            from: '"Sitio Web VetCare" <tu_correo_admin@gmail.com>',
+            to: 'tu_correo_admin@gmail.com', // A quién le llega el mensaje (puede ser el mismo)
+            subject: `Nueva Consulta de: ${validator.escape(nombre)}`,
+            html: `
+        <h2 style="color: #0d9488;">Nueva Consulta Web - VetCare Pro</h2>
+        <p><strong>Cliente:</strong> ${validator.escape(nombre)}</p>
+        <p><strong>Email de contacto:</strong> ${email}</p>
+        <hr>
+        <p><strong>Mensaje:</strong></p>
+        <p><em>${validator.escape(consulta)}</em></p>
+        <br>
+        <p style="font-size: 12px; color: gray;">Generado el: ${dayjs().format('DD/MM/YYYY HH:mm')}</p>
+      `
+        };
+
+        // 4. Envío del correo electrónico configurado de forma asincrónica
+        await transporter.sendMail(mailOptions);
+
+        registrarActividad(`POST /enviar-consulta - ÉXITO: Correo enviado correctamente desde ${email}.`);
+
+        // 5. Respuesta al cliente con una vista HTML
+        res.render('confirmacion', {
+            titulo: 'Mensaje Enviado',
+            nombreClinica: 'VetCare Pro',
+            nombreCliente: validator.escape(nombre)
+        });
+
+    } catch (error) {
+        registrarActividad(`POST /enviar-consulta - ERROR CRÍTICO SMTP: ${error.message}`);
         res.status(500).render('error', {
-            message: "Fallo crítico en el sistema de archivos JSON.",
-            error: {
-                status: 500,
-                stack: error.message
-            },
+            message: "No pudimos enviar tu mensaje en este momento.",
+            error: { status: 500, stack: "Error de conexión SMTP: " + error.message },
             nombreClinica: 'VetCare Pro'
         });
     }
