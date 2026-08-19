@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/es.js';
 import nodemailer from 'nodemailer';
 import { registrarActividad } from "../helpers/logger.js";
+import { config } from '../config/config.js';
 
 dayjs.locale('es');
 
@@ -83,15 +84,15 @@ router.post('/enviar-consulta', async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail', // Puedes usar 'outlook', 'yahoo', etc.
             auth: {
-                user: 'tu_correo_admin@gmail.com', // El correo que enviará el mensaje
-                pass: '' // Contraseña de aplicación configurada en tu cuenta Google > Contraseñas de Aplicación
+                user: config.email.user,
+                pass: config.email.password
             }
         });
 
         // 3. Estructura del correo electrónico
         const mailOptions = {
             from: '"Sitio Web VetCare" <tu_correo_admin@gmail.com>',
-            to: 'tu_correo_admin@gmail.com', // A quién le llega el mensaje (puede ser el mismo)
+            to: config.email.user,
             subject: `Nueva Consulta de: ${validator.escape(nombre)}`,
             html: `
         <h2 style="color: #0d9488;">Nueva Consulta Web - VetCare Pro</h2>

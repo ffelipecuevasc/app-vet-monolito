@@ -5,11 +5,6 @@ import dayjs from 'dayjs';
 // Ruta absoluta al archivo de logs
 const LOG_PATH = path.join(process.cwd(), 'logs', 'activity.log');
 
-/**
- * MINISISTEMA DE LOGGING
- * Guarda historial de operaciones con fecha y hora en formato texto plano.
- * @param {String} mensaje - La descripción de la actividad a registrar.
- */
 export const registrarActividad = (mensaje) => {
     try {
         const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
