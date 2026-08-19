@@ -1,3 +1,31 @@
 [2026-08-10 12:14:57] ❌ JSON - Error al crear el archivo JSON: ENOENT: no such file or directory, open 'D:\Trabajo\Proyectos JAVASCRIPT\app-vet-monolito\public\data\2026-08-10 12:14:57.json'
 [2026-08-10 12:16:57] ✅ JSON - Creación del archivo 2026-08-10-12_16_57.json realizada con éxito.
 [2026-08-10 12:16:57] ✅ JSON - Archivo 2026-08-10-12_16_57.json leído con éxito.
+[2026-08-19 11:14:42] 🛡️ SERVIDOR: Cargando variables de entorno desde el archivo .env.
+[2026-08-19 11:14:42] 🛡️ SERVIDOR: Todas las variables de entorno fueron validadas con éxito.
+[2026-08-19 11:14:50] 🌐 GET / - El usuario visitó la página de Inicio.
+[2026-08-19 11:14:54] 🌐 GET / - El usuario visitó la página de Inicio.
+[2026-08-19 11:14:55] 🌐 GET /servicios - El usuario visitó la página de Servicios.
+[2026-08-19 11:14:56] 🌐 GET /contacto - El usuario visitó la página de Contacto.
+[2026-08-19 11:17:09] 💾 BASE DE DATOS: Generando una nueva conexión (Client) de PostgreSQL.
+[2026-08-19 11:17:09] 💾 BASE DE DATOS: Intentando conectar a PostgreSQL en localhost:5432.
+[2026-08-19 11:17:09] 💾 BASE DE DATOS: Conexión a PostgreSQL establecida con éxito.
+[2026-08-19 11:17:09] 🌐 POST /enviar-consulta - PROCESANDO: Iniciando envío de correo para chuck@gmail.com...
+[2026-08-19 11:17:12] ❌🌐 POST /enviar-consulta - ERROR CRÍTICO: connect ECONNREFUSED 2a00:1450:400b:c03::6d:465
+[2026-08-19 11:17:12] 💾 BASE DE DATOS: Cerrando la conexión a BD PostgreSQL.
+[2026-08-19 11:17:12] 💾 BASE DE DATOS: Conexión a BD PostgreSQL cerrada exitosamente.
+[2026-08-19 11:17:21] 🌐 GET / - El usuario visitó la página de Inicio.
+[2026-08-19 11:20:36] 🛡️ SERVIDOR: Cargando variables de entorno desde el archivo .env.
+[2026-08-19 11:20:36] 🛡️ SERVIDOR: Todas las variables de entorno fueron validadas con éxito.
+[2026-08-19 11:20:41] 🌐 GET / - El usuario visitó la página de Inicio.
+[2026-08-19 11:20:42] 🌐 GET /servicios - El usuario visitó la página de Servicios.
+[2026-08-19 11:20:43] 🌐 GET /contacto - El usuario visitó la página de Contacto.
+[2026-08-19 11:20:58] 💾 BASE DE DATOS: Generando una nueva conexión (Client) de PostgreSQL.
+[2026-08-19 11:20:58] 💾 BASE DE DATOS: Intentando conectar a PostgreSQL en localhost:5432.
+[2026-08-19 11:20:58] 💾 BASE DE DATOS: Conexión a PostgreSQL establecida con éxito.
+[2026-08-19 11:20:58] 🌐 POST /enviar-consulta - PROCESANDO: Iniciando envío de correo para cnorris@gmail.com...
+[2026-08-19 11:21:03] 🌐 POST /enviar-consulta - ÉXITO: Correo enviado correctamente desde cnorris@gmail.com.
+[2026-08-19 11:21:03] 💾 BASE DE DATOS: Ejecutando un INSERT en la base de datos PostgreSQL.
+[2026-08-19 11:21:03] 💾 BASE DE DATOS: Registro insertado exitosamente en PostgreSQL.
+[2026-08-19 11:21:03] 💾 BASE DE DATOS: Cerrando la conexión a BD PostgreSQL.
+[2026-08-19 11:21:03] 💾 BASE DE DATOS: Conexión a BD PostgreSQL cerrada exitosamente.
