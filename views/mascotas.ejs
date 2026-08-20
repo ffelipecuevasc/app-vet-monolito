@@ -1,0 +1,96 @@
+<!-- views/mascotas.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="flex flex-col min-h-screen">
+<%- include('partials/navbar') %>
+
+<main class="flex-grow">
+    <section class="section-container text-center pb-0">
+        <h1 class="text-4xl font-bold mb-4 text-teal-600">Mis Mascotas</h1>
+        <p class="text-slate-600 text-lg">
+            Bienvenido/a, <strong class="text-teal-700"><%= usuario.nombre %></strong>. Este es el listado de mascotas registradas en el sistema.
+        </p>
+    </section>
+
+    <section class="section-container">
+
+        <!-- Botón "Agregar mascota": apunta a la futura ruta de creación (Fase 4) -->
+        <div class="flex justify-end mb-6">
+            <a href="/mascotas/crear"
+               class="inline-block bg-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-lg shadow-teal-100">
+                + Agregar mascota
+            </a>
+        </div>
+
+        <% if (listaMascotas.length === 0) { %>
+            <!-- ESTADO VACÍO: todavía no hay ninguna mascota registrada -->
+            <div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <p class="text-2xl mb-2">🐾</p>
+                <p class="text-slate-700 font-semibold text-lg mb-1">Todavía no hay mascotas registradas.</p>
+                <p class="text-slate-400 text-sm mb-6">Registra a tu primer regalón para comenzar a llevar su historial en VetCare Pro.</p>
+                <a href="/mascotas/crear"
+                   class="inline-block bg-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-teal-700 transition">
+                    Registrar primera mascota
+                </a>
+            </div>
+        <% } else { %>
+            <!-- TABLA DE LISTADO: recorre listaMascotas, ordenada por id DESC desde el controlador -->
+            <!-- TABLA DE LISTADO: recorre listaMascotas, ordenada por id DESC desde el controlador -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                    <tr class="border-b border-slate-100 text-xs uppercase tracking-widest text-slate-400">
+                        <th class="px-6 py-4 font-bold">Nombre</th>
+                        <th class="px-6 py-4 font-bold">Especie</th>
+                        <th class="px-6 py-4 font-bold">Raza</th>
+                        <th class="px-6 py-4 font-bold">Edad</th>
+                        <th class="px-6 py-4 font-bold">Sexo</th>
+                        <th class="px-6 py-4 font-bold">Dueño/a</th>
+                        <th class="px-6 py-4 font-bold">Fecha de Ingreso</th>
+                        <th class="px-6 py-4 font-bold text-right">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% listaMascotas.forEach(mascota => { %>
+                        <tr class="border-b border-slate-50 last:border-0 hover:bg-teal-50/50 transition">
+                            <td class="px-6 py-4 font-semibold text-slate-800"><%= mascota.nombre %></td>
+                            <td class="px-6 py-4 text-slate-600"><%= mascota.especie %></td>
+                            <td class="px-6 py-4 text-slate-600"><%= mascota.raza || '—' %></td>
+                            <td class="px-6 py-4 text-slate-600"><%= mascota.edad %> años</td>
+                            <td class="px-6 py-4 text-slate-600"><%= mascota.sexo %></td>
+                            <td class="px-6 py-4 text-slate-600 font-semibold"><%= mascota.nombreDueno %></td>
+                            <td class="px-6 py-4 text-slate-600"><%= mascota.fechaIngresoFormateada %></td>
+                            <td class="px-6 py-4 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-3">
+                                    <!-- Editar es un <a> — navegar no cambia estado -->
+                                    <a href="/mascotas/<%= mascota.id %>/editar"
+                                       class="text-teal-600 hover:text-teal-800 transition"
+                                       title="Editar mascota">✏️</a>
+
+                                    <!-- Eliminar es un <form method="POST"> propio de
+                                         cada fila — mismo patrón que "Cerrar sesión" del navbar —
+                                         porque SÍ cambia el estado del sistema, y de forma
+                                         irreversible. El diálogo confirm() del navegador evita
+                                         borrados accidentales por un clic apresurado. -->
+                                    <form action="/mascotas/<%= mascota.id %>/eliminar" method="POST" class="inline"
+                                          onsubmit="return confirm('¿Seguro que deseas eliminar esta mascota? Esta acción no se puede deshacer.');">
+                                        <button type="submit" class="text-red-500 hover:text-red-700 transition" title="Eliminar mascota">🗑️</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!-- views/mascotas_update.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="flex flex-col min-h-screen bg-slate-50">
+<%- include('partials/navbar') %>
+
+<main class="flex-grow flex items-center justify-center px-6 py-12">
+    <section class="max-w-lg w-full bg-white p-10 rounded-3xl shadow-xl border border-slate-50">
+
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl border-4 border-teal-100">
+                ✏️
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Editar Mascota</h1>
+            <p class="text-slate-500 text-sm">
+                Actualiza los datos de <strong class="text-teal-700"><%= mascota.nombre %></strong>.
+            </p>
+        </div>
+
+        <!-- El id viaja en la propia URL de acción, no como campo oculto:
+             así la ruta POST /mascotas/:id/editar sabe exactamente qué
+             fila actualizar sin depender de un valor que el navegador
+             podría manipular en el formulario. -->
+        <form action="/mascotas/<%= mascota.id %>/editar" method="POST" class="space-y-4 text-left">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Nombre</label>
+                <input type="text" name="nombre" required maxlength="100" value="<%= mascota.nombre %>"
+                       class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Dueño/a</label>
+                <select name="duenoId" required
+                        class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition bg-white">
+                    <% listaDuenos.forEach(dueno => { %>
+                        <option value="<%= dueno.id %>" <%= dueno.id === mascota.duenoId ? 'selected' : '' %>>
+                            <%= dueno.nombre %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Especie</label>
+                    <input type="text" name="especie" required maxlength="50" value="<%= mascota.especie %>"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Raza</label>
+                    <input type="text" name="raza" maxlength="100" value="<%= mascota.raza || '' %>"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                           placeholder="Opcional">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Edad (años)</label>
+                    <input type="number" name="edad" required min="0" step="1" value="<%= mascota.edad %>"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Sexo</label>
+                    <select name="sexo" required
+                            class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition bg-white">
+                        <option value="Macho" <%= mascota.sexo === 'Macho' ? 'selected' : '' %>>Macho</option>
+                        <option value="Hembra" <%= mascota.sexo === 'Hembra' ? 'selected' : '' %>>Hembra</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition shadow-lg shadow-teal-100">
+                Guardar cambios
+            </button>
+        </form>
+
+        <p class="text-sm text-slate-500 mt-6 text-center">
+            <a href="/mascotas" class="text-teal-600 font-bold hover:underline">&larr; Cancelar y volver al listado</a>
+        </p>
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>

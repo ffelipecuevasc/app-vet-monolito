@@ -1,0 +1,95 @@
+<!-- views/mascotas_create.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="flex flex-col min-h-screen bg-slate-50">
+<%- include('partials/navbar') %>
+
+<main class="flex-grow flex items-center justify-center px-6 py-12">
+    <section class="max-w-lg w-full bg-white p-10 rounded-3xl shadow-xl border border-slate-50">
+
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl border-4 border-teal-100">
+                🐾
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Registrar Mascota</h1>
+            <p class="text-slate-500 text-sm">Completa los datos para agregar un nuevo regalón al sistema.</p>
+        </div>
+
+        <% if (listaDuenos.length === 0) { %>
+            <div class="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-6 text-center text-sm">
+                Todavía no hay dueños registrados.
+                <a href="/duenos/crear" class="font-bold underline">Registra uno primero</a>
+                para poder asociarle una mascota.
+            </div>
+        <% } else { %>
+        <form action="/mascotas/crear" method="POST" class="space-y-4 text-left">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Nombre</label>
+                <input type="text" name="nombre" required maxlength="100"
+                       class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                       placeholder="Ej: Firulais">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Dueño/a</label>
+                <select name="duenoId" required
+                        class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition bg-white">
+                    <option value="" disabled selected>Selecciona...</option>
+                    <% listaDuenos.forEach(dueno => { %>
+                        <option value="<%= dueno.id %>"><%= dueno.nombre %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Especie</label>
+                    <input type="text" name="especie" required maxlength="50"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                           placeholder="Ej: Perro">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Raza</label>
+                    <input type="text" name="raza" maxlength="100"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                           placeholder="Opcional">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Edad (años)</label>
+                    <input type="number" name="edad" required min="0" step="1"
+                           class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                           placeholder="Ej: 3">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Sexo</label>
+                    <select name="sexo" required
+                            class="w-full px-4 py-2 rounded-lg border border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition bg-white">
+                        <option value="" disabled selected>Selecciona...</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 transition shadow-lg shadow-teal-100">
+                Registrar mascota
+            </button>
+        </form>
+        <% } %>
+
+        <p class="text-sm text-slate-500 mt-6 text-center">
+            <a href="/mascotas" class="text-teal-600 font-bold hover:underline">&larr; Volver al listado</a>
+        </p>
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>
