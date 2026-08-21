@@ -12,7 +12,8 @@ const REQUIRED_ENV_VARS = [
     'DB_PASSWORD',
     'DB_NAME',
     'EMAIL_USER',
-    'EMAIL_PASSWORD'
+    'EMAIL_PASSWORD',
+    'SESSION_SECRET'
 ];
 
 REQUIRED_ENV_VARS.forEach((envVar) => {
@@ -28,13 +29,16 @@ registrarActividad("🛡️ SERVIDOR: Todas las variables de entorno fueron vali
 export const config = {
     db: {
         host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
+        port: parseInt(process.env.DB_PORT, 10),
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
+        database: process.env.DB_NAME,
     },
     email: {
         user: process.env.EMAIL_USER,
-        password: process.env.EMAIL_PASSWORD
+        password: process.env.EMAIL_PASSWORD,
+    },
+    session: {
+        secret: process.env.SESSION_SECRET,
     }
 };

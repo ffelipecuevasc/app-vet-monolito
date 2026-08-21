@@ -9,9 +9,29 @@
     </div>
 
     <!-- Enlaces de Navegación -->
-    <div class="space-x-6 font-semibold text-slate-600">
+    <div class="flex items-center space-x-6 font-semibold text-slate-600">
         <a href="/" class="hover:text-teal-600">Inicio</a>
         <a href="/servicios" class="hover:text-teal-600">Servicios</a>
         <a href="/contacto" class="hover:text-teal-600">Contacto</a>
+
+        <!-- Bloque de Autenticación: cambia según haya o no sesión activa -->
+        <% if (usuario) { %>
+            <a href="/mascotas" class="hover:text-teal-600">Mascotas</a>
+
+            <div class="flex items-center space-x-4 pl-6 border-l border-slate-200">
+                <span class="text-slate-500 font-normal">
+                    Hola, <span class="text-teal-700 font-bold"><%= usuario.nombre %></span>
+                </span>
+                <form action="/autenticacion/logout" method="POST" class="inline">
+                    <button type="submit" class="text-red-500 hover:text-red-700 font-semibold transition">
+                        Cerrar sesión
+                    </button>
+                </form>
+            </div>
+        <% } else { %>
+            <a href="/autenticacion/login" class="pl-6 border-l border-slate-200 hover:text-teal-600">
+                Iniciar sesión
+            </a>
+        <% } %>
     </div>
 </nav>

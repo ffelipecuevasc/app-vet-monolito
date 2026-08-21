@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer';
 import { registrarActividad } from "../helpers/logger.js";
 import { config } from '../config/config.js';
 import { getDbClient } from "../helpers/conexion-bd.js";
+import { estaAutenticado } from "../middlewares/auth.js";
 
 dayjs.locale('es');
 
@@ -61,10 +62,7 @@ router.get('/contacto', (req, res, next) => {
     res.render('contacto', data);
 });
 
-/**
- * POST: PROCESAR CONSULTA Y ENVIAR CORREO
- * Metodo Asincrónico para manejar la latencia de la red.
- */
+// RUTA NUEVA: Recepción del formulario de contacto
 router.post('/enviar-consulta', async (req, res) => {
     const conexion = getDbClient();
     try {
@@ -151,6 +149,11 @@ router.post('/enviar-consulta', async (req, res) => {
         await conexion.end();
         registrarActividad(`💾 BASE DE DATOS: Conexión a BD PostgreSQL cerrada exitosamente.`);
     }
+});
+
+// RUTA TEMPORAL DE PRUEBA — reemplazar por routes/mascotas.js en la fase del CRUD
+router.get('/mascotas', estaAutenticado, (req, res) => {
+
 });
 
 export default router;
