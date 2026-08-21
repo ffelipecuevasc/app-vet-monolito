@@ -11,6 +11,7 @@ import connectPgSimple from "connect-pg-simple";
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
 import autenticacionRouter from "./routes/autenticacion.js";
+import mascotasRouter from "./routes/mascotas.js";
 
 // Importación de configuración y logger propios del proyecto
 import { config } from "./config/config.js";
@@ -68,6 +69,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/autenticacion', autenticacionRouter);
+app.use('/mascotas', mascotasRouter);
 
 // Acá se configura el error más común en HTTP = 404 - No encontrado (not found)
 app.use((req, res, next) => {

@@ -151,9 +151,4 @@ router.post('/enviar-consulta', async (req, res) => {
     }
 });
 
-// RUTA TEMPORAL DE PRUEBA — reemplazar por routes/mascotas.js en la fase del CRUD
-router.get('/mascotas', estaAutenticado, (req, res) => {
-
-});
-
 export default router;
